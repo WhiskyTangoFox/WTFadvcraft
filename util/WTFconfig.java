@@ -16,17 +16,13 @@ public class WTFconfig {
 	public static float stoneBreakSpeed;
 	
 	public static boolean replaceExplosives;
+	public static boolean replaceCreepers;
 	
 	public static boolean dirtFall;
 	public static boolean cobbleFall;
 	public static boolean oreFractures;
 	
-	public static final Block IgneousStone = GameData.getBlockRegistry().getObject("UndergroundBiomes:igneousStone");
-	public static final Block IgneousCobblestone = GameData.getBlockRegistry().getObject("UndergroundBiomes:igneousCobblestone");
-	public static final Block MetamorphicStone = GameData.getBlockRegistry().getObject("UndergroundBiomes:metamorphicStone");
-	public static final Block MetamorphicCobblestone = GameData.getBlockRegistry().getObject("UndergroundBiomes:metamorphicCobblestone");
-	public static final Block SedimentaryStone = GameData.getBlockRegistry().getObject("UndergroundBiomes:sedimentaryStone");
-
+	
 	
 	public static void customConfig() {
 	Configuration config = new Configuration(new File("config/WTFadvcraft.cfg"));
@@ -38,7 +34,8 @@ public class WTFconfig {
 	
 	stoneBreakSpeed = (float)config.get("HarderMining", "Stone break speed % modifier", 20).getInt()/100;
 	
-	replaceExplosives = config.get("ReplaceExplosives", "Creepers and TNT drop all blocks", true).getBoolean();
+	replaceExplosives = config.get("Explosives", "TNT drops all blocks", true).getBoolean();
+	replaceCreepers = config.get("Explosives", "Creepers drop all blocks", true).getBoolean();
 	
 	dirtFall = config.get("Gravity", "Dirt falls when disturbed", true).getBoolean();
 	cobbleFall = config.get("Gravity", "Cobblestone falls when disturbed", true).getBoolean();

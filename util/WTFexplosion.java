@@ -36,45 +36,20 @@ import net.minecraft.world.World;
  * 
  * Extends vanilla Explosion class to allow substitution in several vanilla methods.
  * 
- * TODO allow setting custom particles to spawn
- * TODO allow setting custom sound filepath
- * 
- * @auther coolAlias
- *
+ * modified from CoolAlias' custom explosion
  */
 public class WTFexplosion extends Explosion
 {
-	/**
-	 * Creates an explosion based on the BombType given, automatically applying
-	 * various characteristics. If more versatility than this is required, create a
-	 * CustomExplosion object from scratch rather than using the static methods and
-	 * call doExplosionA(), then doExplosionB().
-	 */
-//	public static void createExplosion(Entity bomber, World world, double x, double y, double z, float radius) {
-//		createExplosion(bomber, world, x, y, z, radius, 0.0F, true);
-//	}
+
 
 	/**
-	 * Creates an explosion based on the IEntityBomb given, automatically applying
-	 * various characteristics. If more versatility than this is required, create a
-	 * CustomExplosion object from scratch rather than using the static methods and
-	 * call doExplosionA(), then doExplosionB().
 	 * @param damage Use 0.0F for vanilla explosion damage; amounts above zero will cause a flat amount regardless of distance
 	 */
 	public static void createExplosion(Entity bomber, World world, double x, double y, double z, float radius, float damage, boolean canGrief) {
 		WTFexplosion explosion = new WTFexplosion(world, (Entity) bomber, x, y, z, radius).setDamage(damage);
-	//	BombType type = bomb.getType();
-		// TODO Adventure Mode is only set per player, not per world
-		//boolean isAdventureMode = (world.getWorldInfo().getGameType() == GameType.ADVENTURE);
-	//	boolean restrictBlocks = false; // (isAdventureMode && !bomb.canGriefAdventureMode());
-	//	explosion.setMotionFactor(bomb.getMotionFactor());
 		explosion.scalesWithDistance = (damage == 0.0F);
 		explosion.isSmoking = canGrief;
-	//	explosion.targetBlock = ((restrictBlocks || Config.onlyBombSecretStone()) ? ZSSBlocks.secretStone : null);
-	//	explosion.ignoreLiquids = (type != BombType.BOMB_STANDARD);
-	//	explosion.ignoreLiquidType = (type == BombType.BOMB_FIRE ? 2 : (type == BombType.BOMB_WATER ? 1 : 0));
 		float f = damage;
-		
 		explosion.restrictExplosionBy(f);
 		explosion.doExplosionA();
 		explosion.doExplosionB(true);
@@ -105,7 +80,7 @@ public class WTFexplosion extends Explosion
 	protected int burnTime = 0;
 
 	/** Factor by which affected entity's motion will be multiplied */
-	protected float motionFactor = 5.0F;
+	protected float motionFactor = 2.0F;
 
 	/** Maximum explosionSize within which blocks can be affected, regardless of explosion size */
 	protected static final int MAX_RADIUS = 16;

@@ -42,11 +42,10 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public class WTFEventMonitor {
 	
-	//@SubscribeEvent
-	
+	@SubscribeEvent
 	public void SpawnReplacer (LivingSpawnEvent event)
 	{
-		if (WTFconfig.replaceExplosives == true && !event.world.isRemote && event.entityLiving instanceof EntityCreeper)
+		if (WTFconfig.replaceCreepers == true && !event.world.isRemote && event.entityLiving instanceof EntityCreeper)
 		{
 				EntityCreeper vCreeper = (EntityCreeper) event.entityLiving;  
 	    		if (vCreeper.getCanSpawnHere())
@@ -64,10 +63,9 @@ public class WTFEventMonitor {
 	@SubscribeEvent
 	public void StoneBreakSpeed (BreakSpeed event) 
 	{
-		if (event.block == Blocks.stone || event.block == WTFconfig.IgneousStone || event.block == WTFconfig.MetamorphicStone || event.block == WTFconfig.SedimentaryStone)
+		if (WTFmethods.CheckIfStone(event.block, event.metadata)==true)
 		{
-		event.newSpeed = WTFconfig.stoneBreakSpeed;
-		
+					event.newSpeed = WTFconfig.stoneBreakSpeed;
 		}
 
 	}
@@ -79,15 +77,15 @@ public class WTFEventMonitor {
 	public void PlayerPlaceBlock (PlaceEvent event) 
 	{
 		Block block = event.block;
-		if (block == Blocks.dirt || block == Blocks.cobblestone || block == WTFconfig.MetamorphicStone || block == WTFconfig.MetamorphicCobblestone)
-		{
-			GravMethods.dropblock(event.world, event.x, event.y, event.z);
+		if ((WTFconfig.dirtFall == true && block == Blocks.dirt) ||
+				(WTFconfig.cobbleFall == true && (block == Blocks.cobblestone || block == Blocks.mossy_cobblestone || block == WTFUBblocks.MetamorphicStone || block == WTFUBblocks.MetamorphicCobblestone))){
+			WTFmethods.dropblock(event.world, event.x, event.y, event.z);
 		}
 		if (WTFconfig.replaceExplosives == true && event.block == Blocks.tnt)
 		{
 			event.world.setBlock(event.x, event.y, event.z, WTFadvcraft.blockWTFtnt);
 		}
-		if (WTFconfig.oreFractures == true && CheckIfOre(block)){
+		if (WTFconfig.oreFractures == true && WTFmethods.CheckIfOre(block)){
 			event.setCanceled (true); 
 		}
 	}
@@ -101,12 +99,12 @@ public class WTFEventMonitor {
 		World world = event.world;
 		Block block = event.block;
 		
-		if (event.block == Blocks.stone || event.block == WTFconfig.IgneousStone || event.block == WTFconfig.MetamorphicStone)
+		if (WTFmethods.CheckIfStone(block, event.blockMetadata)==true)
 		{
 			event.setCanceled (true);
 			Fracture(x, y, z, event.world);	
 		}
-		if (CheckIfOre(block))	
+		if (WTFmethods.CheckIfOre(block))	
 		{	
 			Fracture(x+1, y, z, event.world);
 			Fracture(x-1, y, z, event.world);
@@ -117,7 +115,7 @@ public class WTFEventMonitor {
 		}
 		
 		//checks for fall of the block above the block thats been broken
-		GravMethods.fallcheck(event.world, x, y, z);
+		WTFmethods.fallcheck(event.world, x, y, z);
 	}
 	
 	
@@ -130,37 +128,30 @@ public class WTFEventMonitor {
 			//fractures stone that has been broken
 			if (WTFconfig.oreFractures == true && blockToFracture == Blocks.stone){
 				world.setBlock(x, y, z, Blocks.cobblestone);				
-				GravMethods.dropblock(world, x, y, z);
+				WTFmethods.dropblock(world, x, y, z);
 			}
 			
 			//fractures igneous stone
 
-			if (WTFconfig.oreFractures == true && blockToFracture == WTFconfig.IgneousStone){{
-				 if (CheckIfOre(blockToFracture)){
+			if (WTFconfig.oreFractures == true && blockToFracture == WTFUBblocks.IgneousStone){{
+				 if (WTFmethods.CheckIfOre(blockToFracture)){
 					 }else{
-					 world.setBlock(x, y, z, WTFconfig.IgneousCobblestone, blockmeta, 2);			
-				GravMethods.dropblock(world, x, y, z);
+					 world.setBlock(x, y, z, WTFUBblocks.IgneousCobblestone, blockmeta, 2);			
+				WTFmethods.dropblock(world, x, y, z);
 					 }
 				 }
 			}
 			//fractures metamorphic stone
-			if (WTFconfig.oreFractures == true && blockToFracture == WTFconfig.MetamorphicStone){
-				 if (CheckIfOre(blockToFracture)){
+			if (WTFconfig.oreFractures == true && blockToFracture == WTFUBblocks.MetamorphicStone){
+				 if (WTFmethods.CheckIfOre(blockToFracture)){
 				 }else{
-				world.setBlock(x, y, z, WTFconfig.MetamorphicCobblestone, blockmeta, 2);
-				GravMethods.dropblock(world, x, y, z);
+				world.setBlock(x, y, z, WTFUBblocks.MetamorphicCobblestone, blockmeta, 2);
+				WTFmethods.dropblock(world, x, y, z);
 				 }
 			}
 	}
 
-		public static boolean CheckIfOre(Block block){
+
+				
 			
-			if (block instanceof BlockOre || block == Blocks.redstone_ore || block == Blocks.lit_redstone_ore)// || block instanceof BlockUBOre)
-			{
-				return true;
-		}else {
-			return false;
-			}
-		}
-		
 }
