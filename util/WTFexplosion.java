@@ -241,12 +241,15 @@ public class WTFexplosion extends Explosion
 		}
 		// TO DO add if statement for unstable redstone here
 		if (block.getMaterial() != Material.air) {
-			if (block.canDropFromExplosion(this)) {
-				//dropchance = force applied / block resistance 
+			if (block.canDropFromExplosion(this)) { 
 				block.dropBlockAsItemWithChance(worldObj, i, j, k, worldObj.getBlockMetadata(i, j, k), 1.0F /  explosionSize, 0);
 			}
 
 			block.onBlockExploded(worldObj, i, j, k, this);
+			if (block == Blocks.redstone_ore || block == Blocks.lit_redstone_ore || block == WTFUBblocks.igneousRedstone || block == WTFUBblocks.sedimentaryRedstone || block == WTFUBblocks.metamorphicRedstone)
+			{
+				WTFexplosion.createExplosion(exploder, this.worldObj, i, j, k, (float)3, 3, true);
+			}
 		}
 	}
 

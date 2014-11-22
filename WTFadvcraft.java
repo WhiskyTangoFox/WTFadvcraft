@@ -2,6 +2,7 @@ package wtfadvcraft;
 
 import java.io.File;
 
+import tconstruct.world.TinkerWorld;
 import wtfadvcraft.blocks.WTFNitreOre;
 import wtfadvcraft.blocks.WTFSulfurOre;
 import wtfadvcraft.blocks.WTFtnt;
@@ -37,7 +38,7 @@ import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import exterminatorJeff.undergroundBiomes.api.UBAPIHook;
 
-@Mod(modid = WTFadvcraft.modid, name = "AdventureCraft", version = "1.0")//, dependencies = "after:undergroundbiomes")
+@Mod(modid = WTFadvcraft.modid, name = "AdventureCraft", version = "1.01")//, dependencies = "after:undergroundbiomes")
 public class WTFadvcraft {
 	public static  final String modid = "WTFAdvcraft";
 	
@@ -89,17 +90,17 @@ public class WTFadvcraft {
 		proxy.registerRenderers();
 		
 	//UBify Ores---------------------------	
-	if(Loader.isModLoaded("UndergroundBiomes") == true && Loader.isModLoaded("TConstruct")){
+	if(Loader.isModLoaded("UndergroundBiomes") == true && Loader.isModLoaded("TConstruct") == true){
 	try {
 		UBAPIHook.ubAPIHook.ubOreTexturizer.
-		setupUBOre(WTFUBblocks.TConOre,  3, "undergroundbiomes:copper_overlay", "Copper Ore", preEvent);
+		setupUBOre(TinkerWorld.oreSlag,  3, "undergroundbiomes:copper_overlay", "Copper Ore", preEvent);
 		}
 	catch (Exception e) 
 		{//do nothing; Underground Biomes not installed
 		}
 	try {
 		UBAPIHook.ubAPIHook.ubOreTexturizer.
-		setupUBOre(WTFUBblocks.TConOre, 4, "undergroundbiomes:tin_overlay", "Tin Ore", preEvent);
+		setupUBOre(TinkerWorld.oreSlag, 4, "undergroundbiomes:tin_overlay", "Tin Ore", preEvent);
 		}
 	catch (Exception e) 
 		{
@@ -107,7 +108,7 @@ public class WTFadvcraft {
 		}	
 	try {
 		UBAPIHook.ubAPIHook.ubOreTexturizer.
-		setupUBOre(WTFUBblocks.TConOre, 5, "wtfadvcraft:aluminum_overlay", "aluminum Ore", preEvent);
+		setupUBOre(TinkerWorld.oreSlag, 5, "wtfadvcraft:aluminum_overlay", "aluminum Ore", preEvent);
 		}
 	catch (Exception e) 
 		{

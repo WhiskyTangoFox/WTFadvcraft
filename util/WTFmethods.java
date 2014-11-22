@@ -73,7 +73,8 @@ public class WTFmethods {
 	}	
 	
 	public static boolean CheckIfStone(Block block, int metadata){
-		if (block == Blocks.stone || metadata < 8 && (block == WTFUBblocks.IgneousStone || block == WTFUBblocks.MetamorphicStone || block == WTFUBblocks.SedimentaryStone)){
+		if (block == Blocks.stone || metadata < 8 && (block == WTFUBblocks.IgneousStone || block == WTFUBblocks.MetamorphicStone))// || block == WTFUBblocks.SedimentaryStone)){
+		{
 			return true;
 		}else{
 			return false;

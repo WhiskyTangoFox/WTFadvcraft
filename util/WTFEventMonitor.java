@@ -76,6 +76,7 @@ public class WTFEventMonitor {
 	@SubscribeEvent
 	public void PlayerPlaceBlock (PlaceEvent event) 
 	{
+	if (event.player.capabilities.isCreativeMode == false){
 		Block block = event.block;
 		if ((WTFconfig.dirtFall == true && block == Blocks.dirt) ||
 				(WTFconfig.cobbleFall == true && (block == Blocks.cobblestone || block == Blocks.mossy_cobblestone || block == WTFUBblocks.MetamorphicStone || block == WTFUBblocks.MetamorphicCobblestone))){
@@ -88,6 +89,7 @@ public class WTFEventMonitor {
 		if (WTFconfig.oreFractures == true && WTFmethods.CheckIfOre(block)){
 			event.setCanceled (true); 
 		}
+	}
 	}
 	
 	@SubscribeEvent
@@ -147,6 +149,12 @@ public class WTFEventMonitor {
 				 }else{
 				world.setBlock(x, y, z, WTFUBblocks.MetamorphicCobblestone, blockmeta, 2);
 				WTFmethods.dropblock(world, x, y, z);
+				 }
+			}
+			if (WTFconfig.oreFractures == true && blockToFracture == WTFUBblocks.SedimentaryStone){
+				 if (WTFmethods.CheckIfOre(blockToFracture)){
+				 }else{
+					 //add turns to sand here
 				 }
 			}
 	}
